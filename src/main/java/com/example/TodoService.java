@@ -9,7 +9,6 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 
-import javax.enterprise.event.Observes;
 import javax.enterprise.event.ObservesAsync;
 import javax.inject.Inject;
 
@@ -35,7 +34,8 @@ public class TodoService implements Todos {
 
     @Override
     public Uni<TodosOuterClass.Void> markDone(TodosOuterClass.Todo request) {
-        return null;
+        return storage.update(request.getId(), todo -> todo.todoState = TodoState.DONE)
+                .replaceWith(VOID);
     }
 
     @Override

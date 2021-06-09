@@ -23,8 +23,9 @@ public class TodoStorage {
     public Uni<Todo> add(Todo entity) {
         return Panache.withTransaction(() ->
                 Todo.persist(entity)
-                        .onItem().transform(ignored -> entity))
-                        .onItem().invoke(events::fireAsync);
+                        .onItem().transform(ignored -> entity)
+                        .onItem().invoke(events::fireAsync)
+        );
     }
 
     public Uni<Todo> update(long id, Consumer<Todo> update) {
