@@ -37,10 +37,9 @@ public class TodoResource {
     }
 
     @GET
-    public Collection<TodoDto> getAll() {
+    public Multi<TodoDto> getAll() {
         return storage.streamAll()
-                .map(mapper::entityToDto)
-                .collect(Collectors.toList());
+                .map(mapper::entityToDto);
     }
 
     @PUT
