@@ -25,15 +25,8 @@ public class TodoStorage {
         ).invoke(event::fireAsync);
     }
 
-    public Uni<List<Todo>> streamAll() {
-        return Panache.withTransaction(Todo::listAll);
-    }
-
-    public <T> Uni<List<T>> streamAndMapAll(Function<Todo, T> mapper) {
-        return Panache.withTransaction(
-                () -> Todo.<Todo>listAll()
-                    .onItem().transform(list -> list.stream().map(mapper).collect(Collectors.toList()))
-        );
+    public Multi<Todo> streamAll() {
+        return Todo.streamAll();
     }
 
     public Uni<Todo> update(long id, Consumer<Todo> update) {

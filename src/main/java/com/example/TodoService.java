@@ -43,8 +43,7 @@ public class TodoService implements Todos {
 
     @Override
     public Multi<TodosOuterClass.Todo> watch(TodosOuterClass.Void request) {
-        Multi<TodosOuterClass.Todo> existingTodos = storage.streamAndMapAll(mapper::entityToGrpc)
-                .onItem().transformToMulti(l -> Multi.createFrom().iterable(l));
+        Multi<TodosOuterClass.Todo> existingTodos = storage.streamAll().onItem().transform(mapper::entityToGrpc);
 
         return Multi.createBy().concatenating()
                 .streams(existingTodos, broadcastProcessor);

@@ -34,8 +34,8 @@ public class TodoResource {
     }
 
     @GET
-    public Uni<List<TodoDto>> getAll() {
-        return storage.streamAndMapAll(mapper::entityToDto);
+    public Multi<TodoDto> getAll() {
+        return storage.streamAll().onItem().transform(mapper::entityToDto);
     }
 
     @PUT
