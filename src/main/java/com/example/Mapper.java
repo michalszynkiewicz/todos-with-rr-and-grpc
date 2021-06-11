@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.storage.Todo;
+import com.example.todos.TodosOuterClass;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -28,5 +29,29 @@ public class Mapper {
         target.description = source.description;
         target.title = source.title;
         target.todoState = source.todoState;
+    }
+
+    public Todo grpcToEntity(TodosOuterClass.Todo source) {
+        Todo target = new Todo();
+
+        target.id = source.getId();
+        target.description = source.getDescription();
+        target.title = source.getTitle();
+        target.todoState = TodoState.valueOf(source.getTodoState().name());
+
+        if (target.id == 0) {
+            target.id = null;
+        }
+
+        return target;
+    }
+
+    public TodosOuterClass.Todo entityToGrpc(Todo todo) {
+        return TodosOuterClass.Todo.newBuilder()
+                .setId(todo.id)
+                .setTitle(todo.title)
+                .setDescription(todo.description)
+                .setTodoState(TodosOuterClass.State.valueOf(todo.todoState.name()))
+                .build();
     }
 }
