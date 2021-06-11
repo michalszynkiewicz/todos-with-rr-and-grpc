@@ -19,8 +19,8 @@ public class TodoStorage {
         );
     }
 
-    public Stream<Todo> streamAll() {
-        return null; //Todo.streamAll();
+    public Multi<Todo> streamAll() {
+        return Todo.streamAll();
     }
 
     @Transactional
